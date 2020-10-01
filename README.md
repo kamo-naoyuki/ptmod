@@ -25,7 +25,7 @@ ptmop model.pth modified.pth "mv -f a/b a/c; cp -f a/d a/b"
 `ptmop` command also has `ls` command.
 
 ```sh
-ptmop model.pth /dev/null "ls"  # modified.pth is same as model.pth
+ptmop model.pth "ls"  # modified.pth is same as model.pth
 ```
 
 ### ptmop_average, ptmop_sum
