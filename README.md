@@ -1,5 +1,5 @@
 # pytorch_model_operators
-Command line utilies to modify the serialized pytorch model states.
+Command line utilies to modify serialized pytorch model states.
 
 ### ptmop_ls
 
