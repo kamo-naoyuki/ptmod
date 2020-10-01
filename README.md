@@ -11,7 +11,7 @@ ptmop_ls model.pth "a/d"
 ### ptmop
 
 ```sh
-ptmop model.pth modified.pth "mv a/b a/d; cp a/d a/e; a/d"
+ptmop model.pth modified.pth "mv a/b a/d; cp a/d a/e; rm a/d"
 ```
 
 - All operations work recursively for dict type values
