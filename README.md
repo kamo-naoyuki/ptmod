@@ -47,7 +47,6 @@ block2.layer1.weight
 ### Copy parameters
 
 ```sh
-% cp model.pth out.pth
 % ptmop "cp model.pth:block1 out.pth" "ls out.pth"
 >>>>>>>> model.pth
 layer1.weight
@@ -56,7 +55,6 @@ layer2.bias
 ```
 
 ```sh
-% cp model.pth out.pth
 % ptmop "cp model.pth:block1 out.pth:foo" "ls out.pth"
 >>>>>>>> model.pth
 foo.layer1.weight
