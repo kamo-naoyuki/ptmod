@@ -1,7 +1,7 @@
 # pytorch_model_operators
 Command line utilies to modify serialized pytorch model states.
 
-### Show the contents of model file
+### Show the contents in a model file
 
 ```sh
 % ptmop "ls model.pth"
