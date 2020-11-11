@@ -13,26 +13,6 @@ block2.layer2.weight
 block2.layer2.bias
 ```
 
-### Remove parameters
-
-```sh
-% cp model.pth out.pth
-% ptmop "rm out.pth:block1" "ls out.pth"
-block2.layer1.weight
-block2.layer2.weight
-block2.layer2.bias
-```
-
-```sh
-% cp model.pth out.pth
-% ptmop "rm out.pth:block2.layer2" "ls out.pth"
->>>>>>>> model.pth
-block1.layer1.weight
-block1.layer2.weight
-block1.layer2.bias
-block2.layer1.weight
-```
-
 ### Copy parameters
 
 ```sh
@@ -47,4 +27,24 @@ layer2.bias
 foo.layer1.weight
 foo.layer2.weight
 foo.layer2.bias
+```
+
+
+### Remove parameters
+
+```sh
+% cp model.pth out.pth
+% ptmop "rm out.pth:block1" "ls out.pth"
+block2.layer1.weight
+block2.layer2.weight
+block2.layer2.bias
+```
+
+```sh
+% cp model.pth out.pth
+% ptmop "rm out.pth:block2.layer2" "ls out.pth"
+block1.layer1.weight
+block1.layer2.weight
+block1.layer2.bias
+block2.layer1.weight
 ```
