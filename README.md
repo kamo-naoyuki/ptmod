@@ -2,7 +2,7 @@
 Command line utilies to modify serialized pytorch model states.
 
 ## The definition of pytorch model file
-In this tool, a model file should be the serialized `state_dict` object.
+In the context of this text, a model file should be the serialized `state_dict` object.
 
 ```python
 # e.g.
