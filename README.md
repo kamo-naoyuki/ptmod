@@ -4,7 +4,7 @@ Command line utilies to modify serialized pytorch model states.
 ## The definition of pytorch model file
 In this tool, a model file should be the serialized `state_dict` object.
 
-```
+```python
 # e.g.
 import torch
 class Model(torch.nn.Module):
@@ -17,7 +17,7 @@ torch.save(model.state_dict(), "model.pth")
 ```
 
 
-### Show the contents in a model file
+## Show the contents in a model file
 
 ```sh
 % ptmod "ls model.pth"
@@ -29,7 +29,7 @@ block2.layer2.weight
 block2.layer2.bias
 ```
 
-### Copy parameters
+## Copy parameters
 
 ```sh
 % ptmod "cp model.pth:block1 out.pth" "ls out.pth"
@@ -46,7 +46,7 @@ foo.layer2.bias
 ```
 
 
-### Remove parameters
+## Remove parameters
 
 ```sh
 % cp model.pth out.pth
