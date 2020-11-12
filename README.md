@@ -76,7 +76,7 @@ foo.layer2.bias
 
 ```sh
 % rm -f out.pth
-% ptmop "cp model.pth out.pth" "rm out.pth:block1" "ls out.pth"
+% ptmod "cp model.pth out.pth" "rm out.pth:block1" "ls out.pth"
 block2.layer1.weight
 block2.layer1.bias
 block2.layer2.weight
