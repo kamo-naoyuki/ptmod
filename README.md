@@ -73,7 +73,6 @@ block2.layer2.bias
 
 ```sh
 % rm -f out.pth
-% cp -f model.pth out.pth
 % ptmod "cp model.pth out.pth" "rm out.pth:block2.layer2" "ls out.pth"
 block2.layer1.weight
 block2.layer1.bias
