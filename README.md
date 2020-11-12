@@ -41,14 +41,14 @@ block2.layer2.bias
 
 ```sh
 % ptmod "ls -l model.pth"
-block1.layer1.weight: (10, 10)
-block1.layer1.bias: (10,)
-block1.layer2.weight: (10, 10)
-block1.layer2.bias: (10,)
-block2.layer1.weight: (10, 10)
-block2.layer1.bias: (10,)
-block2.layer2.weight: (10, 10)
-block2.layer2.bias: (10,)
+block1.layer1.weight (10, 10)
+block1.layer1.bias (10,)
+block1.layer2.weight (10, 10)
+block1.layer2.bias (10,)
+block2.layer1.weight (10, 10)
+block2.layer1.bias (10,)
+block2.layer2.weight (10, 10)
+block2.layer2.bias (10,)
 ```
 
 ## Copy parameters
