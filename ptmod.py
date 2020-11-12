@@ -86,7 +86,10 @@ def modify(
                 if key2 == "":
                     if k == "":
                         raise RuntimeError("No key name is specified")
-                    states[var2][k] = v
+                    if k.startswith("."):
+                        states[var2][k[1:]] = v
+                    else:
+                        states[var2][k] = v
                 else:
                     if key2.endswith(".") and k.startswith("."):
                         states[var2][key2 + k[1:]] = v
