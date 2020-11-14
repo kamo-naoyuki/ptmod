@@ -7,7 +7,7 @@ import torch
 
 
 def torch_load(fname):
-    obj = torch.load(fname, map_location=torch.device('cpu'))
+    obj = torch.load(fname, map_location=torch.device("cpu"))
     if not isinstance(obj, collections.abc.Mapping):
         raise RuntimeError(f"{fname} must be dict, but got {type(obj)}")
     return obj
@@ -25,9 +25,7 @@ def modify(
         if commands[0] == "rm":
             for c in commands[1:]:
                 if ":" not in c:
-                    raise RuntimeError(
-                        f"Must be a form as filepath:key, but got {c}"
-                    )
+                    raise RuntimeError(f"Must be a form as filepath:key, but got {c}")
                 var, key = c.split(":", 1)
                 if var not in states:
                     states[var] = torch_load(var)
@@ -40,17 +38,13 @@ def modify(
                         new_state[k] = v
                         found = True
                 if not found:
-                    raise RuntimeError(
-                        f"Key '{key}' is not found in {var}"
-                    )
+                    raise RuntimeError(f"Key '{key}' is not found in {var}")
                 states[var] = new_state
                 modified.add(var)
 
         elif commands[0] == "cp":
             if len(commands) != 3:
-                raise RuntimeError(
-                    f"Must be a form as 'cp src dest', but got {s}"
-                )
+                raise RuntimeError(f"Must be a form as 'cp src dest', but got {s}")
             src_state = {}
             if ":" not in commands[1]:
                 var1 = commands[1]
@@ -63,11 +57,9 @@ def modify(
                     states[var1] = torch_load(var1)
                 for k, v in states[var1].items():
                     if k == key1 or k.startswith(f"{key1}."):
-                        src_state[k[len(key1):]] = v
+                        src_state[k[len(key1) :]] = v
                 if len(src_state) == 0:
-                    raise RuntimeError(
-                        f"Key '{key1}' is not found in {var1}"
-                    )
+                    raise RuntimeError(f"Key '{key1}' is not found in {var1}")
 
             if ":" not in commands[2]:
                 var2 = commands[2]
@@ -166,4 +158,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
