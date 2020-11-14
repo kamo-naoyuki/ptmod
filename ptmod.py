@@ -1,12 +1,16 @@
 import argparse
 import collections
-from pathlib import Path
 import shlex
-from typing import Union
 from typing import Sequence
-import warnings
 
 import torch
+
+
+def torch_load(fname):
+    obj = torch.load(fname, map_location=torch.device('cpu'))
+    if not isinstance(obj, collections.abc.Mapping):
+        raise RuntimeError(f"{fname} must be dict, but got {type(obj)}")
+    return obj
 
 
 def modify(
@@ -26,7 +30,7 @@ def modify(
                     )
                 var, key = c.split(":", 1)
                 if var not in states:
-                    states[var] = torch.load(var, map_location=torch.device('cpu'))
+                    states[var] = torch_load(var)
 
                 state = states[var]
                 new_state = {}
@@ -47,22 +51,16 @@ def modify(
                 raise RuntimeError(
                     f"Must be a form as 'cp src dest', but got {s}"
                 )
-            for c in commands[1:]:
-                if ":" not in c:
-                    var = c
-                else:
-                    var, key = c.split(":", 1)
-
             src_state = {}
             if ":" not in commands[1]:
                 var1 = commands[1]
                 if var1 not in states:
-                    states[var1] = torch.load(var1, map_location=torch.device('cpu'))
+                    states[var1] = torch_load(var1)
                 src_state = states[var1]
             else:
                 var1, key1 = commands[1].split(":", 1)
                 if var1 not in states:
-                    states[var1] = torch.load(var1, map_location=torch.device('cpu'))
+                    states[var1] = torch_load(var1)
                 for k, v in states[var1].items():
                     if k == key1 or k.startswith(f"{key1}."):
                         src_state[k[len(key1):]] = v
@@ -78,10 +76,7 @@ def modify(
                 var2, key2 = commands[2].split(":", 1)
 
             if var2 not in states:
-                if not Path(var2).exists():
-                    states[var2] = {}
-                else:
-                    states[var2] = torch.load(var2, map_location=torch.device('cpu'))
+                states[var2] = {}
             for k, v in src_state.items():
                 if key2 == "":
                     if k == "":
@@ -101,13 +96,54 @@ def modify(
             modified.add(var2)
 
         elif commands[0] == "ls":
+            if commands[1] == "-l":
+                verbose = True
+                commands = commands[1:]
+            else:
+                verbose = False
+
             for var in commands[1:]:
                 if var not in states:
-                    states[var] = torch.load(var, map_location=torch.device('cpu'))
-                for k in states[var]:
-                    print(k)
+                    states[var] = torch_load(var)
+
+                for k, v in states[var].items():
+                    if verbose:
+                        print(k, tuple(v.shape))
+                    else:
+                        print(k)
+
+        elif commands[0] in ("average", "sum"):
+            if len(commands) > 3:
+                raise RuntimeError(
+                    f"Require 2 or more arguments: '{commands[0]} out-file in-file...'"
+                )
+
+            out_states = {}
+            for var in commands[2:]:
+                if var not in states:
+                    states[var] = torch_load(var)
+                for k, v in states[var].items():
+                    if k in out_states:
+                        out_states[k] = v
+                    else:
+                        out_states[k] += v
+
+            if commands[0] == "average":
+                for k, v in list(out_states.items()):
+                    # For integer type, not dividing
+                    if not str(out_states[k].dtype).startswith("torch.int"):
+                        out_states[k] = v / len(commands[2:])
+            states[commands[1]] = out_states
+            modified.add(commands[1])
+
         else:
-            raise RuntimeError
+            raise RuntimeError(
+                "Available commands:\n"
+                "  ls model.pth\n"
+                "  rm model.pth:key\n"
+                "  average out.pth in.pth in2.pth...\n"
+                "  sum out.pth in.pth in2.pth...\n"
+            )
 
         for var in modified:
             torch.save(states[var], var)
