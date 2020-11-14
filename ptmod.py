@@ -115,7 +115,7 @@ def modify(
                 if var not in states:
                     states[var] = torch_load(var)
                 for k, v in states[var].items():
-                    if k in out_states:
+                    if k not in out_states:
                         out_states[k] = v
                     else:
                         out_states[k] += v
@@ -141,20 +141,68 @@ def modify(
             torch.save(states[var], var)
 
 
-def get_parser():
+def ptmod_ls():
+    parser = argparse.ArgumentParser(
+        description="Modify PyTorch model file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument("args", nargs="+")
+    args = parser.parse_args()
+    modify(["ls " + " ".join(args.args)])
+
+
+def ptmod_rm():
+    parser = argparse.ArgumentParser(
+        description="Modify PyTorch model file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument("args", nargs="+")
+    args = parser.parse_args()
+    modify(["rm" + " ".join(args.args)])
+
+
+def ptmod_cp():
+    parser = argparse.ArgumentParser(
+        description="Modify PyTorch model file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument("input")
+    parser.add_argument("output")
+    args = parser.parse_args()
+    modify([f"cp {args.input} {args.output}"])
+
+
+def ptmod_average():
+    parser = argparse.ArgumentParser(
+        description="Modify PyTorch model file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument("output")
+    parser.add_argument("args", nargs="+")
+    args = parser.parse_args()
+    modify([f"average {args.output}" + " ".join(args.args)])
+
+
+def ptmod_sum():
+    parser = argparse.ArgumentParser(
+        description="Modify PyTorch model file",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument("output")
+    parser.add_argument("args", nargs="+")
+    args = parser.parse_args()
+    modify([f"sum {args.output}" + " ".join(args.args)])
+
+
+def ptmod_main():
     parser = argparse.ArgumentParser(
         description="Modify PyTorch model file",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("operations", nargs="+")
-    return parser
-
-
-def main():
-    parser = get_parser()
     args = parser.parse_args()
     modify(**vars(args))
 
 
 if __name__ == "__main__":
-    main()
+    ptmod_main()

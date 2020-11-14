@@ -27,6 +27,14 @@ torch.save(model.state_dict(), "model.pth")
 
 ## Show the contents in a model file
 
+### Usage
+```
+ptmod-ls model.pth
+# OR
+ptmod "ls model.pth"
+```
+
+### Example
 ```sh
 % ptmod "ls model.pth"
 block1.layer1.weight
@@ -53,6 +61,14 @@ block2.layer2.bias (10,)
 
 ## Copy parameters
 
+### Usage
+```
+ptmod-cp model.pth:key out.pth:key2
+# OR
+ptmod "cp model.pth:key out.pth:key2"
+```
+
+### Example
 ```sh
 % ptmod "cp model.pth:block1 out.pth" "ls out.pth"
 layer1.weight
@@ -72,6 +88,14 @@ foo.layer2.bias
 
 ## Remove parameters
 
+### Usage
+```
+ptmod-rm model.pth:key
+# OR
+ptmod "rm model.pth:key"
+```
+
+### Example
 ```sh
 % ptmod "cp model.pth out.pth" "rm out.pth:block1" "ls out.pth"
 block2.layer1.weight
@@ -91,24 +115,18 @@ block1.layer2.bias
 ```
 
 ## Sum/Average parameters
+### Usage
+```
+ptmod-average out.pth model1.pth model2.pth ...
+# OR
+ptmod "average out.pth model1.pth model2.pth ...
+```
 
-
+### Example
 ```sh
 % ptmod "average out.pth model1.pth model2.pth"
-block2.layer1.weight
-block2.layer1.bias
-block1.layer1.weight
-block1.layer1.bias
-block1.layer2.weight
-block1.layer2.bias
 ```
 
 ```sh
 % ptmod "sum out.pth model1.pth model2.pth"
-block2.layer1.weight
-block2.layer1.bias
-block1.layer1.weight
-block1.layer1.bias
-block1.layer2.weight
-block1.layer2.bias
 ```
