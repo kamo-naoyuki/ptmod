@@ -1,5 +1,5 @@
 # ptmod: Modify PyTorch model
-Command line utilies to modify serialized pytorch model states.
+A Command line utility to modify serialized PyTorch model states.
 
 ## The definition of pytorch model file
 In the context of this text, a model file should be a serialized `state_dict` object. See for mote detail: https://pytorch.org/docs/stable/notes/serialization.html
